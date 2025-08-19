@@ -21,7 +21,7 @@ def run_image_search(query):
         # 调用 image_search_annotator.py 脚本
         # 我们只关心它是否成功执行并创建了 labeled_screenshot.png
         subprocess.run(
-            [sys.executable, "image_search_annotator.py", "--query", query],
+            [sys.executable, "image_search_annotator.py", query],
             check=True,
             capture_output=True,
             text=True
@@ -54,11 +54,11 @@ def run_vlm_selector(prompt):
     try:
         # 调用 vlm_selector.py 脚本并捕获其标准输出
         result = subprocess.run(
-            [sys.executable, "vlm_selector.py", "--image", image_path, "--prompt", prompt],
+            [sys.executable, "vlm_selector.py", image_path, prompt],
             check=True,
             capture_output=True,
             text=True,
-            encoding='utf-8' # 确保正确解码输出
+            encoding='gbk' # 在Windows上使用GBK编码以避免解码错误
         )
         # 移除输出中可能存在的多余空白字符
         selected_label = result.stdout.strip()

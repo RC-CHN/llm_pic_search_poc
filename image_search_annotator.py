@@ -17,7 +17,7 @@ def annotate_image_search(query: str, headless: bool = True):
     with sync_playwright() as p:
         # 启动浏览器实例
         # 在调试时可以设置 headless=False 以便观察浏览器操作
-        browser = p.chromium.launch(headless=headless)
+        browser = p.chromium.launch(headless=False)
         page = browser.new_page()
 
         try:
@@ -98,6 +98,8 @@ def annotate_image_search(query: str, headless: bool = True):
             print(f"正在截取全屏并保存到 '{screenshot_path}'...")
             page.screenshot(path=screenshot_path, full_page=True)
             print("截图成功保存。")
+            
+            page.wait_for_timeout(3000)
 
         except PlaywrightTimeoutError as e:
             print(f"操作超时: {e}")
